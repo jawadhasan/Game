@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Game.Web.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -27,7 +28,7 @@ namespace Game.Web
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+    public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime applicationLifetime)
     {
       if (env.IsDevelopment())
       {
@@ -36,6 +37,26 @@ namespace Game.Web
       app.UseDefaultFiles();
       app.UseStaticFiles();
       app.UseMvc();
+      // dbseeder.SeedAsync(app.ApplicationServices).Wait();
+
+
+      applicationLifetime.ApplicationStarted.Register(OnStart);
+      applicationLifetime.ApplicationStopping.Register(OnStopping);
+      applicationLifetime.ApplicationStopped.Register(OnStopped);
+      
+    }
+
+    private void OnStart()
+    {
+      GameActorSystem.Create();
+    }
+    private void OnStopping()
+    {
+      GameActorSystem.Shutdown();
+    }
+    private void OnStopped()
+    {
+      //stop
     }
   }
 }

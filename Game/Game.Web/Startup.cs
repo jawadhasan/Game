@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Game.Web.Hubs;
 using Game.Web.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,51 +13,65 @@ using Microsoft.Extensions.Options;
 
 namespace Game.Web
 {
-  public class Startup
-  {
-    public Startup(IConfiguration configuration)
+    public class Startup
     {
-      Configuration = configuration;
-    }
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
 
-    public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; }
 
-    // This method gets called by the runtime. Use this method to add services to the container.
-    public void ConfigureServices(IServiceCollection services)
-    {
-      services.AddMvc();
-    }
-
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime applicationLifetime)
-    {
-      if (env.IsDevelopment())
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
       {
-        app.UseDeveloperExceptionPage();
-      }
-      app.UseDefaultFiles();
-      app.UseStaticFiles();
-      app.UseMvc();
-      // dbseeder.SeedAsync(app.ApplicationServices).Wait();
+          builder
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowAnyOrigin()
+              .AllowCredentials();
+      }));
+            services.AddMvc();
+            services.AddSignalR();
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime applicationLifetime)
+        {
+            app.UseCors("CorsPolicy");
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/chatHub");
+            });
+            app.UseMvcWithDefaultRoute();
 
 
-      applicationLifetime.ApplicationStarted.Register(OnStart);
-      applicationLifetime.ApplicationStopping.Register(OnStopping);
-      applicationLifetime.ApplicationStopped.Register(OnStopped);
-      
-    }
+            applicationLifetime.ApplicationStarted.Register(OnStart);
+            applicationLifetime.ApplicationStopping.Register(OnStopping);
+            applicationLifetime.ApplicationStopped.Register(OnStopped);
 
-    private void OnStart()
-    {
-      GameActorSystem.Create();
+        }
+
+        private void OnStart()
+        {
+            GameActorSystem.Create();
+        }
+        private void OnStopping()
+        {
+            GameActorSystem.Shutdown();
+        }
+        private void OnStopped()
+        {
+            //stop
+        }
     }
-    private void OnStopping()
-    {
-      GameActorSystem.Shutdown();
-    }
-    private void OnStopped()
-    {
-      //stop
-    }
-  }
 }

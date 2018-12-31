@@ -11,7 +11,7 @@ export class SignalrService {
     console.log('signalrService constructor called.');
 
     this.connection = new signalR.HubConnectionBuilder()
-      .withUrl("http://localhost:46592/gameHub")
+      .withUrl("http://localhost:46593/gameHub")
       .build();
 
     this.connection.start()

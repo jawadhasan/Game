@@ -1,16 +1,38 @@
 <div style="text-align:center">
+
   <h1>Welcome to {{ title }}!</h1>
 
-  <div *ngIf="!playerJoined">
-    <label for="playerName">Player Name: </label>
-    <input type="text" name="playerName" #playerName />
-    <button class="btn btn-default" (click)="joinGame(playerName.value)">Join Game</button>
+  <div *ngIf="!game.isJoined">
+    <h2>Join Game</h2>
+    <form #gameForm="ngForm" novalidate>
+      <label for="playerName">Player Name: </label>
+      <input type="text" name="playerName" #playerName [(ngModel)]="game.newPlayerName" required />
+      <button class="btn btn-default" [disabled]="!gameForm.valid" (click)="joinGame(gameForm)">Join Game</button>
+    </form>
   </div>
 
 </div>
 
+<div *ngIf="game.isJoined">
+  <h2>{{game.thisPlayer.name}}</h2>
+  <h3>Health</h3>
+  <p>{{game.thisPlayer.health}}</p>
 
+  <h3 *ngIf="!game.thisPlayer.isAlive" style="color:red">Dead</h3>
+</div>
 
+<div>
+  <h2>Other players</h2>
+  <div *ngFor="let otherPlayer of game.otherPlayers">
+    <hr />
+    <p>{{otherPlayer.name}}</p>
+    <p>{{otherPlayer.health}}</p>
+    <button *ngIf="otherPlayer.isAlive && otherPlayer.health >0 && game.thisPlayer.isAlive" (click)="attack(otherPlayer.name)">Attack</button>
+    <h4 *ngIf="!otherPlayer.isAlive" style="color:red">Dead</h4>
+  </div>
 
+</div>
+
+<!-- <pre>{{game | json }}</pre> -->
 
 

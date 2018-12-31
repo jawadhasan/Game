@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Akka.Actor;
 using Game.ActorModel.Actors;
+using Game.ActorModel.ExternalSystems;
 
 namespace Game.Web.Models
 {
@@ -12,16 +9,24 @@ namespace Game.Web.Models
       //this field will hold the instance of our actorSystem in memory
       private static ActorSystem ActorSystem;
 
+      private static IGameEventsPusher _gameEventsPusher;
+
       /// <summary>
       /// This method will initialize our actorSystem when
       /// ASP .NET application starts
       /// </summary>
-      public static void Create()
+      public static void Create(IGameEventsPusher gameEventsPusher)
       {
+        _gameEventsPusher = gameEventsPusher;
         ActorSystem = ActorSystem.Create("GameSystem");
 
         //Create an instance of GameControllerActor and store it
         ActorReferenes.GameController = ActorSystem.ActorOf<GameControllerActor>();
+
+        ActorReferenes.SignalRBridge = ActorSystem.ActorOf(
+          Props.Create(() =>
+            new SignalRBridgeActor(_gameEventsPusher, ActorReferenes.GameController)),
+          "SignalRBridge");
       }
 
       public static void Shutdown()
@@ -38,6 +43,7 @@ namespace Game.Web.Models
       public static class ActorReferenes
       {
         public static IActorRef GameController { get; set; }
+        public static IActorRef SignalRBridge { get; set; }
       }
 
     }

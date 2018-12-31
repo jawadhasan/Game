@@ -1,33 +1,16 @@
-<!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <input type="text" name="messageToSend" #messageToSend />
-  <button class="btn btn-default" (click)="sendMessage(messageToSend.value)">Send Message</button>
-</div>
+  <h1>Welcome to {{ title }}!</h1>
 
-<div>
-  <h3>
-    Sent Messages
-  </h3>
-  <ul>
-    <li *ngFor="let message of sentMessages">
-      {{message}}
-    </li>
-  </ul>
-</div>
-
-
-<div>
-    <h3>
-      Recieve Messages
-    </h3>
-    <ul>
-      <li *ngFor="let message of recieveMessages">
-        {{message}}
-      </li>
-    </ul>
+  <div *ngIf="!playerJoined">
+    <label for="playerName">Player Name: </label>
+    <input type="text" name="playerName" #playerName />
+    <button class="btn btn-default" (click)="joinGame(playerName.value)">Join Game</button>
   </div>
+
+</div>
+
+
+
+
 
 

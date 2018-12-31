@@ -1,6 +1,5 @@
-import { Component, TemplateRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { SignalrService } from './signalR.service';
-
 
 @Component({
   selector: 'app-root',
@@ -8,23 +7,37 @@ import { SignalrService } from './signalR.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  title = 'Game System';
+  playerJoined: boolean = false;
+
   sentMessages: string[] = [];
-  recieveMessages: string[] = [];
 
   constructor(private signalRService: SignalrService) {
 
     this.signalRService.connection
       .on("receiveMessage", (username: string, message: string) => {
         console.log(message);
-        this.recieveMessages.push(message);
-    });
+      });
+
+    this.signalRService.connection
+      .on("playerJoined", (playerName: string, health: string) => {
+        this.playerJoined = true;
+        console.log('playerJoined ', playerName, health);
+      });
+
+      this.signalRService.connection
+      .on("updatePlayerHealth", (playerName: string, health: string) => {
+        console.log('updatePlayerHealth ', playerName, health);
+      });
+      
+
+
   }
 
-  sendMessage(messageToSend:string) {
+  joinGame(playerName: string) {
     //this.signalRService.send("testUser", "Test Message");
-    console.log('messageToSend ', messageToSend);
-    this.signalRService.connection.send("sendMessage", "testUser", messageToSend)
-      .then(() => this.sentMessages.push(messageToSend));
+    console.log('JoinGame ', playerName);
+    this.signalRService.connection.send("joinGame", playerName)
+      .then(() => this.sentMessages.push(playerName + ' :joinGame'));
   }
 }

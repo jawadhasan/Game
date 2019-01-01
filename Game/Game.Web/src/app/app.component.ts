@@ -11,12 +11,14 @@ export class AppComponent {
 
   title = 'Game System';
   game: Game = new Game();
+  selfAlive: boolean;
+  notifications: string[] = [];
 
   //Call to Hub
   joinGame(form:any) {
     //this.signalRService.send("testUser", "Test Message");
     this.signalRService.connection.send("joinGame", this.game.newPlayerName)
-      .then(() => console.log('joinGame is done'));
+      .then(() => this.notifications.push(this.game.newPlayerName + ' newPlayer joined the game'));
   }
   
   attack(playerName: string) {
@@ -29,11 +31,13 @@ export class AppComponent {
 
     this.signalRService.connection
       .on("playerJoined", (playerName: string, health: number) => {
+        this.notifications.push(playerName + ' playerJoined');
         this.playerJoined(playerName, health);
       });
 
     this.signalRService.connection
       .on("updatePlayerHealth", (playerName: string, health: number) => {
+        this.notifications.push(playerName + ' updatePlayerHealth');
         this.updatePlayerHealth(playerName, health);
       });
   }
@@ -59,6 +63,7 @@ export class AppComponent {
     if (this.game.thisPlayer.name === playerName) {
       //update own health
       this.game.thisPlayer.changeHealth(health);
+      this.selfAlive = this.game.thisPlayer.isAlive;
     }
     else {
       //Update other player health

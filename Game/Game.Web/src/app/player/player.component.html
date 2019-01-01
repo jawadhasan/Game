@@ -1,0 +1,30 @@
+<div class="card shadow p-3 mb-5 bg-white rounded">
+  <!-- <div class="card-img-top"><span class="glyphicon glyphicon-align-left"></span></div> -->
+
+  <div class="card-header">
+  <img src="../assets/img_avatar.png" alt="Avatar" class="avatar card-img-top">
+    <span class="d-inline-block text-truncate" style="max-width: 150px;">
+        &nbsp;&nbsp;{{player.name}}
+    </span>
+  </div>
+
+  <div class="card-block">
+    <div class="progress">
+      <div class="progress-bar bg-success" role="progressbar" [style.width]="player.health + '%'">
+        <span class="label">{{player.health}}</span>
+      </div>
+    </div>
+
+    <hr />
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <button class="btn btn-danger btn-sm"
+         *ngIf="player.isAlive && player.health > 0 && selfAlive"
+         (click)="attackWasClicked(player.name)">Attack
+         </button>
+         <button class="btn btn-primary btn-sm" disabled>Message</button>
+
+    </div>
+    <h4 *ngIf="!player.isAlive" style="color:red">Dead</h4>
+  </div>
+
+</div>

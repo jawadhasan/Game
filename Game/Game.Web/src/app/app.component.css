@@ -1,0 +1,70 @@
+:host{  
+    background: #000000;
+}
+
+:host, header, section, aside, footer {
+    margin: 0;
+}
+
+header {
+    text-align:center;
+    background: #000000;
+    color: white;
+}
+.hero {
+    background: #d22b1f;
+}
+
+.flex-container {    
+    display: flex;
+    padding-top: 50px;
+}
+.content {
+    flex: 1;
+}
+
+.left_contentlist{
+    height: 670px; 
+    overflow-y:scroll;
+  }
+.otherPlayer{
+    float: left;
+}
+
+.sidebar {
+    flex: 0 1 400px;
+}
+
+.notifications{
+    height: 550px; 
+    overflow-y:scroll;
+}
+
+
+.avatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+
+  footer {
+    /* border: 1px solid #000000; */
+    background: #ccc;
+    color: white;
+    text-align: center;
+    /* position: fixed;
+    width: 100%;
+    bottom: 1px; */
+}
+
+
+
+
+
+
+
+
+
+
+

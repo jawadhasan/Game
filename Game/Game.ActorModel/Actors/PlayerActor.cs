@@ -1,5 +1,6 @@
 ﻿using Akka.Actor;
 using Game.ActorModel.Messages;
+using System;
 
 namespace Game.ActorModel.Actors
 {
@@ -7,11 +8,13 @@ namespace Game.ActorModel.Actors
     {
         private readonly string _playerName;
         private int _health;
+        private DateTime _joinDate;
 
         public PlayerActor(string playerName)
         {
             _playerName = playerName;
             _health = 100;
+            _joinDate = DateTime.UtcNow;
 
             Receive<AttackPlayerMessage>(message =>
             {
@@ -24,7 +27,7 @@ namespace Game.ActorModel.Actors
             Receive<RefreshPlayerStatusMessage>(message =>
             {
                 //Tell the sender our status
-                Sender.Tell(new PlayerStatusMessage(_playerName, _health));
+                Sender.Tell(new PlayerStatusMessage(_playerName, _health, _joinDate));
             });
         }
     }

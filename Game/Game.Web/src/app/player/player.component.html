@@ -6,9 +6,15 @@
     <span class="d-inline-block text-truncate" style="max-width: 150px;">
         &nbsp;&nbsp;{{player.name}}
     </span>
+    <hr>
+    <div><i class="fa fa-clock-o" aria-hidden="true"></i>
+      &nbsp;Join at: {{convertUTCDateToLocalDate(player.joinDate) | date: 'dd.MM.yy hh:mm:ss'}}
+    </div>
   </div>
 
   <div class="card-block">
+
+
     <div class="progress">
       <div class="progress-bar bg-success" role="progressbar" [style.width]="player.health + '%'">
         <span class="label">{{player.health}}</span>

@@ -1,6 +1,7 @@
 using Game.ActorModel.ExternalSystems;
 using Game.Web.Hubs;
 using Microsoft.AspNetCore.SignalR;
+using System;
 
 namespace Game.Web.Models
 {
@@ -12,9 +13,9 @@ namespace Game.Web.Models
     {
       _gameHubContext = gameHubContext;
     }
-    public void PlayerJoined(string playerName, int playerHealth)
+    public void PlayerJoined(string playerName, int playerHealth, DateTime joinDate)
       {
-        _gameHubContext.Clients.All.SendAsync("playerJoined", playerName, playerHealth).Wait();
+        _gameHubContext.Clients.All.SendAsync("playerJoined", playerName, playerHealth, joinDate).Wait();
       }
 
       public void UpdatePlayerHealth(string playerName, int playerHealth)

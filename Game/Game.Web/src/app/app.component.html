@@ -1,6 +1,8 @@
 <nav class="navbar navbar-dark bg-dark fixed-top">
 
-  <h1 class="navbar-brand mb-0 text-center">Welcome to {{ title }}</h1>   
+  <h1 class="navbar-brand mb-0 text-center">Welcome to {{ title }}
+
+  </h1>
   <div *ngIf="!game.isJoined">
     <form class="form-inline my-2 my-lg-0" #gameForm="ngForm" novalidate>
       <input class="form-control mr-sm-2" type="email" placeholder="Email" name="email" #playerName required pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$"
@@ -10,43 +12,67 @@
   </div>
 </nav>
 
+
 <div class="flex-container">
   <!-- Content -->
-
-  <section class="content ">
-    <div class="left_contentlist">
-        <p>Online Players: {{game.otherPlayers.length}}</p>
-
-      <div *ngFor="let otherPlayer of game.otherPlayers" class="otherPlayer">
-        <app-player [player]="otherPlayer" [selfAlive]="selfAlive" (onAttack)="attack(otherPlayer.name)">
-        </app-player>
+  <div class="hero">
+      <div>
+          <a class="btn btn-primary" href="mailto:jawadhasan80@gmail.com">jawadhasan80@gmail.com</a>  
+  
       </div>
+      <div>Players: {{game.otherPlayers.length}}</div>
+
+  </div>
+  <section class="content ">
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="left_contentlist">
+
+          <div *ngFor="let otherPlayer of game.otherPlayers" class="otherPlayer">
+            <app-player [player]="otherPlayer" [selfAlive]="selfAlive" (onAttack)="attack(otherPlayer.name)">
+            </app-player>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="col-md-6">
+        <div class="left_contentlist">
+          <p>Dead Players: {{game.deadPlayers.length}}</p>
+          <div *ngFor="let deadPlayer of game.deadPlayers" class="otherPlayer">
+            <app-player [player]="deadPlayer" [selfAlive]="selfAlive" (onAttack)="attack(otherPlayer.name)">
+            </app-player>
+          </div>
+        </div>
+      </div> -->
+
     </div>
+
+
   </section>
 
   <!-- Sidebar -->
   <aside class="sidebar">
-   
-      <div *ngIf="game.isJoined">
-        <div class="card">
-            <div class="card-header">
-                <img src="../assets/img_avatar.png" alt="Avatar" class="avatar">
-                <h4 class="card-title">{{game.thisPlayer.name}}</h4>
-            </div>
-            <div class="card-block">             
-              <div class="progress">
-                  <div class="progress-bar bg-success" role="progressbar" [style.width]="game.thisPlayer.health + '%'">
-                    <span class="label">{{game.thisPlayer.health}}</span>
-                  </div>
-                </div>
+
+    <div *ngIf="game.isJoined">
+      <div class="card">
+        <div class="card-header">
+          <img src="../assets/img_avatar.png" alt="Avatar" class="avatar">
+          <h4 class="card-title">{{game.thisPlayer.name}}</h4>
+        </div>
+        <div class="card-block">
+          <div class="progress">
+            <div class="progress-bar bg-success" role="progressbar" [style.width]="game.thisPlayer.health + '%'">
+              <span class="label">{{game.thisPlayer.health}}</span>
             </div>
           </div>
+        </div>
       </div>
-   
+    </div>
+
     <div class="notifications">
       <ul class="list-group">
-        <li *ngFor="let notification of notifications.slice().reverse()"
-        class="list-group-item">
+        <li *ngFor="let notification of notifications.slice().reverse()" class="list-group-item">
           {{notification}}
         </li>
       </ul>
@@ -58,15 +84,7 @@
 
 <!-- Footer -->
 <footer class="bg-dark fixed-bottom">
-  Developer Mode
+  Developer Mode:
 </footer>
-
-
-
-
-
-
-
-
 
 <!-- <pre>{{game | json }}</pre> -->

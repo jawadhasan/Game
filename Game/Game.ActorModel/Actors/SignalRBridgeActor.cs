@@ -21,7 +21,7 @@ namespace Game.ActorModel.Actors
             //Outgoing messages from ActorSystem
             Receive<PlayerStatusMessage>(message =>
             {
-                _gameEventsPusher.PlayerJoined(message.PlayerName, message.Health);
+                _gameEventsPusher.PlayerJoined(message.PlayerName, message.Health, message.JoinDate);
             });
 
             Receive<PlayerHealthChangedMessage>(message =>

@@ -26,5 +26,15 @@
   <ItemGroup>
     <ProjectReference Include="..\Game.ActorModel\Game.ActorModel.csproj" />
   </ItemGroup>
+  
+  <Target Name="Build Angular Debug" Condition="'$(Configuration)'=='Debug'" BeforeTargets="Build">
+    <Message Text="* * * * * * Building Debug Angular App * * * * * *" Importance="high" />
+    <Exec Command="ng build" />
+  </Target>
+
+  <Target Name="Build Angular Release" Condition="'$(Configuration)'=='Release'" BeforeTargets="Build">
+    <Message Text="* * * * * * Building Release Angular App * * * * * *" Importance="high" />
+    <Exec Command="ng build" />
+  </Target>
 
 </Project>

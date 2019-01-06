@@ -17,6 +17,21 @@ export class PlayerComponent implements OnInit {
   ngOnInit() {
     this.selfAlive = true;
   }
+  convertUTCDateToLocalDate(dateString) {
+    if(dateString){
+      var date = new Date(dateString);
+
+      var newDate = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+  
+      var offset = date.getTimezoneOffset() / 60;
+      var hours = date.getHours();
+  
+      newDate.setHours(hours - offset);
+      return newDate; //date.toLocaleString()
+    }
+    return "";
+
+}
 
   attackWasClicked(playerName: string): void {
     // this.onAttack.emit(playerName);

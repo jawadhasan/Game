@@ -23,6 +23,7 @@ export class AppComponent {
   
   attack(playerName: string) {
     this.signalRService.connection.invoke("attack", playerName);//player name who is being attacked
+    this.notifications.push(playerName + ' was attacked')
   }
   //End CallToHub
 
@@ -30,9 +31,9 @@ export class AppComponent {
   constructor(private signalRService: SignalrService) {
 
     this.signalRService.connection
-      .on("playerJoined", (playerName: string, health: number) => {
+      .on("playerJoined", (playerName: string, health: number, joinDate: Date) => {
         this.notifications.push(playerName + ' playerJoined');
-        this.playerJoined(playerName, health);
+        this.playerJoined(playerName, health, joinDate);
       });
 
     this.signalRService.connection
@@ -43,18 +44,19 @@ export class AppComponent {
   }
 
   //called from Hub
-  private playerJoined(playerName: string, playerHealth: number) {
+  private playerJoined(playerName: string, playerHealth: number, joinDate: Date) {
 
     let isMe = playerName === this.game.newPlayerName;
 
     if (isMe) {
       this.game.thisPlayer.name = playerName;
+      this.game.thisPlayer.joinDate = joinDate;
       this.game.thisPlayer.changeHealth(playerHealth);
       this.game.isJoined = true;
     } else {
       let playerExistsInList = this.game.otherPlayers.find(p => p.name === playerName);
       if (!playerExistsInList) {
-        this.game.otherPlayers.push(new Player(playerName, playerHealth));
+        this.game.otherPlayers.push(new Player(playerName, playerHealth, joinDate));
       }
     }
   }
@@ -70,6 +72,12 @@ export class AppComponent {
       this.game.otherPlayers.forEach(function (otherPlayer) {
         if (otherPlayer.name === playerName) {
           otherPlayer.changeHealth(health);
+
+          if(otherPlayer.health <= 0){
+           //emit the event.
+            // this.game.deadPlayers.push(otherPlayer);
+            // this.otherPlayers.splice(otherPlayer);
+          }
         }
       })
 

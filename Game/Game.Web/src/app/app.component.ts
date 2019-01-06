@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SignalrService } from './signalR.service';
-import { Player, Game } from './player';
+import { Player, Game, ChatMessage } from './player';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +13,7 @@ export class AppComponent {
   game: Game = new Game();
   selfAlive: boolean;
   notifications: string[] = [];
+  chatMessages: ChatMessage[] = [];
 
   //Call to Hub
   joinGame(form:any) {
@@ -25,7 +26,12 @@ export class AppComponent {
     this.signalRService.connection.invoke("attack", playerName);//player name who is being attacked
     this.notifications.push(playerName + ' was attacked')
   }
-  //End CallToHub
+
+  broadcastMessage(message:string){
+    console.log(this.game.newPlayerName, message);
+    this.signalRService.connection.send("SendMessage",this.game.newPlayerName, message);    
+  }
+  //End CallToHubs
 
 
   constructor(private signalRService: SignalrService) {
@@ -41,6 +47,17 @@ export class AppComponent {
         this.notifications.push(playerName + ' updatePlayerHealth');
         this.updatePlayerHealth(playerName, health);
       });
+
+      this.signalRService.connection
+      .on("receiveBroadcastedMessage", (playerName: string, datetime: string, message: string) => {
+        let chatMessage: ChatMessage =  {
+          playerName: playerName,
+          timeStamp: datetime,
+          message: message
+        };
+        this.chatMessages.push(chatMessage);
+      });
+      
   }
 
   //called from Hub

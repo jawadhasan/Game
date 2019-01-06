@@ -1,8 +1,6 @@
 <nav class="navbar navbar-dark bg-dark fixed-top">
 
-  <h1 class="navbar-brand mb-0 text-center">Welcome to {{ title }}
-
-  </h1>
+  <h1 class="navbar-brand mb-0 text-center">Welcome to {{ title }} </h1>
   <div *ngIf="!game.isJoined">
     <form class="form-inline my-2 my-lg-0" #gameForm="ngForm" novalidate>
       <input class="form-control mr-sm-2" type="email" placeholder="Email" name="email" #playerName required pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$"
@@ -12,79 +10,47 @@
   </div>
 </nav>
 
+<div class="page">
 
-<div class="flex-container">
-  <!-- Content -->
-  <div class="hero">
-      <div>
-          <a class="btn btn-primary" href="mailto:jawadhasan80@gmail.com">jawadhasan80@gmail.com</a>  
-  
+  <div class="container-1">
+    <div class="section">
+      <div class="content">
+        <div>Players: {{game.otherPlayers.length}}</div>
       </div>
-      <div>Players: {{game.otherPlayers.length}}</div>
-
-  </div>
-  <section class="content ">
-
-    <div class="row">
-      <div class="col-md-12">
-        <div class="left_contentlist">
-
-          <div *ngFor="let otherPlayer of game.otherPlayers" class="otherPlayer">
-            <app-player [player]="otherPlayer" [selfAlive]="selfAlive" (onAttack)="attack(otherPlayer.name)">
-            </app-player>
-          </div>
+      <div class="scrollable-content content">
+        <div *ngFor="let otherPlayer of game.otherPlayers" class="otherPlayer">
+          <app-player [player]="otherPlayer" [selfAlive]="selfAlive" (onAttack)="attack(otherPlayer.name)">
+          </app-player>
         </div>
       </div>
-
-      <!-- <div class="col-md-6">
-        <div class="left_contentlist">
-          <p>Dead Players: {{game.deadPlayers.length}}</p>
-          <div *ngFor="let deadPlayer of game.deadPlayers" class="otherPlayer">
-            <app-player [player]="deadPlayer" [selfAlive]="selfAlive" (onAttack)="attack(otherPlayer.name)">
-            </app-player>
-          </div>
-        </div>
-      </div> -->
-
     </div>
+  </div>
 
+  <app-chat-messages [chatMessages]="chatMessages.slice().reverse()"></app-chat-messages>
+  <app-notifications [notifications]="notifications"></app-notifications>
 
-  </section>
-
-  <!-- Sidebar -->
-  <aside class="sidebar">
-
-    <div *ngIf="game.isJoined">
+  <div class="currentPlayer" *ngIf="game.isJoined">
       <div class="card">
         <div class="card-header">
           <img src="../assets/img_avatar.png" alt="Avatar" class="avatar">
           <h4 class="card-title">{{game.thisPlayer.name}}</h4>
         </div>
-        <div class="card-block">
-          <div class="progress">
-            <div class="progress-bar bg-success" role="progressbar" [style.width]="game.thisPlayer.health + '%'">
-              <span class="label">{{game.thisPlayer.health}}</span>
-            </div>
-          </div>
-        </div>
+
       </div>
+      </div>
+  <div class="chatForm">
+    <form class="form my-2 my-lg-0" #broadcastForm="ngForm" novalidate>
+      <textarea class="form-control my-2" ngModel name="chatMessage" #chatMessage required></textarea>
+
+      <button class="btn-success my-2 my-sm-0" [disabled]="!broadcastForm.valid" (click)="broadcastMessage(chatMessage.value)">Broadcast</button>
+    </form>
+  </div>
+
+
+  <!-- Footer -->
+  <footer class="bg-dark fixed-bottom">
+    Developer Mode:
+    <div>
+      <a class="text-info" href="mailto:jawadhasan80@gmail.com">By: jawadhasan80@gmail.com</a>
     </div>
-
-    <div class="notifications">
-      <ul class="list-group">
-        <li *ngFor="let notification of notifications.slice().reverse()" class="list-group-item">
-          {{notification}}
-        </li>
-      </ul>
-    </div>
-  </aside>
-</div>
-
-
-
-<!-- Footer -->
-<footer class="bg-dark fixed-bottom">
-  Developer Mode:
-</footer>
-
-<!-- <pre>{{game | json }}</pre> -->
+  </footer>

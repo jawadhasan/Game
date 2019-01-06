@@ -1,0 +1,23 @@
+<div class="container-2">
+    <div class="section">
+      <div class="content">
+        Broadcasted Messages
+      </div>
+      <div class="scrollable-content content">
+          <ul>
+              <li *ngFor="let msg of chatMessages">
+                  <div class="borderTop">
+                      <hr>
+                    </div>
+                <div>
+                  <strong>{{msg.playerName}}</strong>
+                  <div>{{msg.timeStamp | date: 'dd.MM.yy hh:mm:ss' }}</div>
+                  <p>{{msg.message}}</p>
+                </div>
+              </li>
+            </ul>
+      
+      </div>
+    </div>
+  </div>
+

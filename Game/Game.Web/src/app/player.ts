@@ -35,3 +35,9 @@ export class Player{
         this.isAlive = false;
     }
 }
+
+export interface ChatMessage {
+    playerName:string;
+    timeStamp:string;
+    message:string;
+}

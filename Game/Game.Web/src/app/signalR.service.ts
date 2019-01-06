@@ -12,7 +12,7 @@ export class SignalrService {
 
     this.connection = new signalR.HubConnectionBuilder()
       .withUrl("http://localhost:46593/gameHub")
-      // .withUrl("https://gamesystem.azurewebsites.net/gameHub")
+      //  .withUrl("https://gamesystem.azurewebsites.net/gameHub")
       .build();
 
     this.connection.start()

@@ -1,0 +1,18 @@
+<div class="container-3">
+  <div class="section">
+    <div class="content">
+      Game Events
+    </div>
+    <div class="scrollable-content content">
+      <ul>
+        
+        <li *ngFor="let notification of notifications.slice().reverse()">
+          <div class="borderTop">
+            <hr>
+          </div>
+          {{notification}}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,70 +1,81 @@
-:host{  
-    background: #000000;
+.currentPlayer{
+  position: fixed;
+  top: 100px;
+  width: 20%;
+  right: 10px;
 }
-
-:host, header, section, aside, footer {
-    margin: 0;
+.chatForm{
+  position: fixed;
+  bottom: 100px;
+  width: 20%;
+  right: 10px;
 }
-
-header {
-    text-align:center;
-    background: #000000;
-    color: white;
-}
-.hero {
-    background:cadetblue;
-}
-
-.flex-container {    
+.page{
+  background: #3F51B5;
     display: flex;
-    padding-top: 50px;
+    position: absolute;
+    /* justify-content: space-between; */
+
+    top: 50px; /* compensating header */
+    bottom: 0;
+    left: 0;
+    width: 100%;
 }
+
+
+.container-1 {
+  background:white;
+
+  /* give the outermost container a predefined size */
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 25%;
+  
+  display: flex;
+  flex-direction: column;
+}
+
+/* section, content, scrollable-content are for one block */
+.section {
+  margin: 10px;
+  /* background: #2196F3; */
+  flex-grow: 1;
+  
+  display: flex;
+  flex-direction: column;
+  
+  /* for Firefox */
+  min-height: 0;
+}
+
 .content {
-    flex: 1;
+  margin: 10px;
+  /* background: #BBDEFB; */
 }
 
-.left_contentlist{
-    height: 670px; 
-    overflow-y:scroll;
-  }
-.otherPlayer{
-    float: left;
+.scrollable-content {
+  /* background: white; */
+  flex-grow: 1;
+  
+  overflow: auto;
+  
+  /* for Firefox */
+  min-height: 0;
 }
 
-.sidebar {
-    flex: 0 1 400px;
-}
-
-.notifications{
-    height: 550px; 
-    overflow-y:scroll;
-}
-
-
-.avatar {
+  .avatar {
     vertical-align: middle;
     width: 50px;
     height: 50px;
     border-radius: 50%;
   }
-
-  footer {
-    /* border: 1px solid #000000; */
-    background: #ccc;
-    color: white;
-    text-align: center;
-    /* position: fixed;
-    width: 100%;
-    bottom: 1px; */
+  .otherPlayer{
+      /* float: left; */
 }
 
-
-
-
-
-
-
-
-
-
-
+  footer {
+    color: white;
+    text-align: center;
+}

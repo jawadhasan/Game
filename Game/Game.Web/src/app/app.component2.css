@@ -1,0 +1,80 @@
+:host{  
+    background: #000000;
+}
+
+:host, header, section, aside, footer {
+    margin: 0;
+}
+
+header {
+    text-align:center;
+    background: #000000;
+    color: white;
+}
+
+.pageBody{
+    height:50vh;
+    background-color: #000000;
+}
+.flex-container {    
+    display: flex;
+    padding-top: 50px;
+
+}
+.hero {
+    background:cadetblue;
+    flex: 0 1 33%;
+
+}
+.content {
+    /* flex: 1;     */
+    flex: 0 1 33%;
+    background-color: blueviolet;
+    overflow-y:scroll;
+
+
+}
+
+.left_contentlist{
+    height: 100%; 
+    overflow-y:scroll;
+  }
+.otherPlayer{
+    float: left;
+}
+
+.sidebar {
+    /* flex: 0 1 400px; */
+    flex: 0 1 33%;
+
+    background-color: red;
+}
+
+.notifications{
+    /* height: 550px;  */
+    overflow-y:scroll;
+}
+
+
+.avatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+
+  footer {
+    color: white;
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+

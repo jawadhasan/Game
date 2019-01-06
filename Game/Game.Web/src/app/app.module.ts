@@ -5,12 +5,18 @@ import { AppComponent } from './app.component';
 import { SignalrService} from './signalR.service';
 import { PlayerComponent } from './player/player.component';
 import { ReversePipe } from './reverse.pipe';
+import { ChatMessagesComponent } from './chat-messages/chat-messages.component';
+import { SectionComponent } from './section/section.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PlayerComponent,
-    ReversePipe
+    ReversePipe,
+    ChatMessagesComponent,
+    SectionComponent,
+    NotificationsComponent
   ],
   imports: [
     BrowserModule,

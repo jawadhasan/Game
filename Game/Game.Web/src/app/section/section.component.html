@@ -1,0 +1,10 @@
+<div class="container-otherPlayers">
+     <div class="section">
+          <div class="content">
+              <ng-content select='.projected-title'></ng-content>
+          </div>
+        <div class="scrollable-content content">
+          <ng-content select=':not(.projected-title)'></ng-content>
+        </div>
+      </div>
+</div>

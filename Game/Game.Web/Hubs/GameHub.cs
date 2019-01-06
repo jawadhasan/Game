@@ -1,6 +1,8 @@
+using System.Threading.Tasks;
 using Game.ActorModel.Messages;
 using Game.Web.Models;
 using Microsoft.AspNetCore.SignalR;
+using System;
 
 namespace Game.Web.Hubs
 {
@@ -20,6 +22,11 @@ namespace Game.Web.Hubs
         .ActorReferenes
         .SignalRBridge
         .Tell(new AttackPlayerMessage(playerName), null);
+    }
+
+    public async Task SendMessage(string user, string message)
+    {     
+      await Clients.All.SendAsync("receiveBroadcastedMessage", user, DateTime.UtcNow, message );
     }
   }
 }
